@@ -22,15 +22,25 @@ public class SignInPage extends PageObject {
 		super(driver);
 	}
 	
-	public void typeEmailAndSubmit(String email){
-		waitForElementLoading(emailField, submitEmailButton);
+	public void typeEmail(String email){
+		waitForElementLoading(emailField);
+		emailField.clear();
 		emailField.sendKeys(email);
+	}
+	
+	public void submitEmail(){
+		waitForElementLoading(submitEmailButton);
 		submitEmailButton.click();
 	}
 	
-	public GmailPage typePasswordAndSubmit(String password){
-		waitForElementLoading(passwordField, submitPasswordButton);
+	public void typePassword(String password){
+		waitForElementLoading(passwordField);
+		passwordField.clear();
 		passwordField.sendKeys(password);
+	}
+	
+	public GmailPage submitPassword(){
+		waitForElementLoading(submitPasswordButton);
 		submitPasswordButton.click();
 		return new GmailPage(driver);
 	}

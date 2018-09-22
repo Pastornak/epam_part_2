@@ -46,14 +46,16 @@ public class TestGmail {
 		
 		driver.get("https://mail.google.com");
 		SignInPage signInPage = new SignInPage(driver);
-		signInPage.typeEmailAndSubmit(login);
-		GmailPage gmailInboxPage = signInPage.typePasswordAndSubmit(password);
+		signInPage.typeEmail(login);
+		signInPage.submitEmail();
+		signInPage.typePassword(password);
+		GmailPage gmailInboxPage = signInPage.submitPassword();
 		gmailInboxPage.pressWriteEmailButton();
 		gmailInboxPage.fillEmailFields(emailTo, emailSubject, emailText);
 		gmailInboxPage.pressSendEmail();
 		gmailInboxPage.waitForEmailToBeSent();
 		
-		driver.get("https://mail.google.com/mail/u/0/#sent");
+		driver.get("https://mail.google.com/mail/#sent");
 		driver.navigate().refresh();
 		GmailPage gmailSentPage = new GmailPage(driver);
 		gmailSentPage.waitForPageLoading();

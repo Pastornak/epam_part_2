@@ -32,10 +32,9 @@ public class GmailPage extends PageObject{
 		waitForPageLoading();
 	}
 	
-	public void waitForPageLoading() throws Error {
-        // Initial loading, called when creating the page object to make sure that the page is loaded to a state where it is ready to interact with us, in our case it means that button is present in DOM and visible.
-		new WebDriverWait(driver, 10)
-			.until(ExpectedConditions.urlMatches("^https://mail.google.com/mail/u/0/(\\w)*"));
+	public void waitForPageLoading() {
+       new WebDriverWait(driver, waitTime)
+			.until(ExpectedConditions.urlMatches("^https://mail.google.com/mail/(\\w)*"));
 		waitForElementLoading(writeEmailButton, emailList);
     }
 
@@ -74,7 +73,8 @@ public class GmailPage extends PageObject{
 		waitForElementLoading(notification);
 		WebElement checkElement = notification.findElement(By
 				.xpath(".//*[@class='bAo']/*[@id='link_undo']"));
-		new WebDriverWait(driver, 15).until(ExpectedConditions.invisibilityOf(checkElement));
+		new WebDriverWait(driver, waitTime).until(ExpectedConditions
+				.invisibilityOf(checkElement));
 	}
 	
 	public String getEmailSubject(int emailNumberFromTop){
@@ -89,9 +89,9 @@ public class GmailPage extends PageObject{
 		WebElement emailInfo = getEmailInfo(emailNumberFromTop);
 		WebElement textElement = emailInfo.findElement(By.xpath(".//span[@class='y2']"));
 		waitForElementLoading(textElement.findElement(By.tagName("span")));
-		String text = textElement.getAttribute("textContent");
-		// Deletes " - " at the beginning
-		text = text.substring(3);
+		String text = textElement.getText();
+		text = text.replaceFirst("-", "");
+		text = text.trim();
 		return text;
 	}
 	
@@ -103,11 +103,6 @@ public class GmailPage extends PageObject{
 	}
 	
 	private void waitForEmailListToUpdate(int emailNumberFromTop){
-//		WebElement recieverField = emailList.findElement(By.xpath(".//tr[" 
-//				+ emailNumberFromTop + "]/td[@class='yX xY ']/div[last()]/span"));
-//		WebElement shortTextField = emailList.findElement(By.xpath(".//tr[" 
-//				+ emailNumberFromTop + "]/td[@id][2]/div/div/span/span"));
-//		isElementLoaded(recieverField, shortTextField);
 		waitForElementLoading(
 				By.xpath(".//tr[" + emailNumberFromTop + "]/td[@class='yX xY ']/div[last()]/span"),
 				By.xpath(".//tr[" + emailNumberFromTop + "]/td[@id][2]/div/div/span/span")
