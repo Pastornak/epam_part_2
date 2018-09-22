@@ -1,0 +1,63 @@
+package com.epam.lab.homework_3;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import com.epam.lab.homework_3.page_objects.*;
+import com.epam.lab.homework_3.readers.*;
+
+public class TestGmail {
+	
+	private int implicitTimeWait;
+	private String pathToChromeDriver;
+	
+	private String login;
+	private String password;
+	
+	private String emailTo;
+	private String emailSubject;
+	private String emailText;
+	
+	@BeforeClass
+	public void setUp(){
+		PropertiesParser pp = new PropertiesParser("resources/driver_config.properties");
+		implicitTimeWait = pp.getImplicitWaitTimeProperty();
+		pathToChromeDriver = pp.getChromeDriverPath();
+		System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
+	
+		XMLParserDOM xml = new XMLParserDOM("resources/user.xml");
+		login = xml.getAttribute("login");
+		password = xml.getAttribute("password");
+		xml = new XMLParserDOM("resources/email.xml");
+		emailTo = xml.getAttribute("to");
+		emailSubject = xml.getAttribute("subject");
+		emailText = xml.getAttribute("text");
+	}
+
+	@Test
+	public void testGmailSendEmail(){
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(implicitTimeWait, TimeUnit.SECONDS);
+		
+		driver.get("https://mail.google.com");
+		SignInPage signInPage = new SignInPage(driver);
+		signInPage.typeEmailAndSubmit(login);
+		GmailPage gmailInboxPage = signInPage.typePasswordAndSubmit(password);
+		gmailInboxPage.pressWriteEmailButton();
+		gmailInboxPage.fillEmailFields(emailTo, emailSubject, emailText);
+		gmailInboxPage.pressSendEmail();
+		gmailInboxPage.waitForEmailToBeSent();
+		
+		driver.get("https://mail.google.com/mail/u/0/#sent");
+		driver.navigate().refresh();
+		GmailPage gmailSentPage = new GmailPage(driver);
+		gmailSentPage.waitForPageLoading();
+		Assert.assertEquals(gmailSentPage.getEmailSubject(1), emailSubject);
+		Assert.assertTrue(emailText.contains(gmailSentPage.getEmailShortText(1)));
+	}
+}
