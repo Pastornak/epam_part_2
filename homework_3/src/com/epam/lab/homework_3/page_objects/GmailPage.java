@@ -95,6 +95,28 @@ public class GmailPage extends PageObject{
 		return text;
 	}
 	
+	public void clickEmailDeleteCheckbox(int emailNumberFromTop){
+		waitForElementLoading(emailList);
+		WebElement deleteCheckboxElement = emailList.findElement(By.xpath(".//tr[" 
+				+ emailNumberFromTop + "]/td[@id][1]/*[@id and @role='checkbox']"));
+		waitForElementLoading(deleteCheckboxElement);
+		deleteCheckboxElement.click();
+	}
+	
+	public void clickDeleteCheckboxedEmailsButton(){
+		WebElement deleteButton = driver.findElement(By
+				.xpath("//*[@act=10 and @role='button']"));
+		waitForElementLoading(deleteButton);
+		deleteButton.click();
+	}
+	
+	public boolean isDeleted(){
+		WebElement notificationUndoElement = driver.findElement(By
+				.xpath("//*[@id='link_undo' and @role='link']"));
+		waitForElementLoading(notificationUndoElement);
+		return true;
+	}
+	
 	private WebElement getEmailInfo(int emailNumberFromTop){
 		waitForElementLoading(emailList);
 		waitForEmailListToUpdate(emailNumberFromTop);

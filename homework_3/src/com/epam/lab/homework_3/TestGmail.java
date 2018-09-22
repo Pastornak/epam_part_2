@@ -61,5 +61,9 @@ public class TestGmail {
 		gmailSentPage.waitForPageLoading();
 		Assert.assertEquals(gmailSentPage.getEmailSubject(1), emailSubject);
 		Assert.assertTrue(emailText.contains(gmailSentPage.getEmailShortText(1)));
+		
+		gmailSentPage.clickEmailDeleteCheckbox(1);
+		gmailSentPage.clickDeleteCheckboxedEmailsButton();
+		Assert.assertTrue(gmailSentPage.isDeleted());
 	}
 }
