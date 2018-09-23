@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import com.epam.lab.homework_3.page_objects.*;
 import com.epam.lab.homework_3.readers.*;
 
-public class TestGmail {
+public class GmailTest {
 	
 	private int implicitTimeWait;
 	private String pathToChromeDriver;

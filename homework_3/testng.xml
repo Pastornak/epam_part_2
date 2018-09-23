@@ -1,0 +1,7 @@
+<suite name="Suite1" verbose="1" >
+  <test name="Homework3"   >
+    <packages>
+      <package name="com.epam.lab.homework_3" />
+   </packages>
+ </test>
+</suite>
