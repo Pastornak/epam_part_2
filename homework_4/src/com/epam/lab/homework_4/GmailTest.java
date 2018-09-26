@@ -8,8 +8,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.epam.lab.homework_3.page_objects.*;
-import com.epam.lab.homework_3.readers.*;
+import com.epam.lab.homework_4.page_objects.*;
+import com.epam.lab.homework_4.readers.*;
 
 public class GmailTest {
 	

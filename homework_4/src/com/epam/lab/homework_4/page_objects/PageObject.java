@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.epam.lab.homework_3.readers.PropertiesParser;
+import com.epam.lab.homework_4.readers.PropertiesParser;
 
 class PageObject {
 	
