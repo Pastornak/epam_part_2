@@ -79,4 +79,8 @@ abstract class AbstractElement {
 	public String getCssValue(String property){
 		return webElement.getCssValue(property);
 	}
+	
+	public WebElement getElement(){
+		return webElement;
+	}
 }

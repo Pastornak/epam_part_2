@@ -5,10 +5,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.epam.lab.homework_4.elements.*;
+import com.epam.lab.homework_4.readers.PropertiesParser;
 
 public class GmailPage extends PageObject{
 	
@@ -34,6 +36,9 @@ public class GmailPage extends PageObject{
 	
 	public GmailPage(WebDriver driver){
 		super(driver);
+		PageFactory.initElements(new CustomFieldDecorator(driver), this);
+		this.driver = driver;
+		waitTime = new PropertiesParser("resources/driver_config.properties").getImplicitWaitTimeProperty();
 		LOG.info("Constructor.");
 		waitForPageLoading();
 	}
@@ -100,7 +105,7 @@ public class GmailPage extends PageObject{
 		LOG.info("getEmailShortText, input: " + emailNumberFromTop);
 		WebElement emailInfo = getEmailInfo(emailNumberFromTop);
 		Label textElement = new Label(emailInfo.findElement(By.xpath(".//span[@class='y2']")));
-		waitForElementLoading(textElement.findElement(By.tagName("span")));
+		waitForElementLoading(textElement.getElement().findElement(By.tagName("span")));
 		String text = textElement.getText();
 		text = text.replaceFirst("-", "");
 		text = text.trim();
@@ -113,7 +118,7 @@ public class GmailPage extends PageObject{
 		waitForElementLoading(emailList);
 		Checkbox deleteCheckboxElement = new Checkbox(emailList.findElement(By.xpath(".//tr[" 
 				+ emailNumberFromTop + "]/td[@id][1]/*[@id and @role='checkbox']")));
-		deleteCheckboxElement.click();
+		deleteCheckboxElement.setChecked(true);
 	}
 	
 	public void clickDeleteCheckboxedEmailsButton(){

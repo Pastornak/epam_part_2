@@ -20,9 +20,7 @@ class PageObject {
 
 	protected PageObject(WebDriver _driver) {
 		LOG.info("Constructor.");
-		PageFactory.initElements(new CustomFieldDecorator(driver), this);
-		this.driver = _driver;
-		waitTime = new PropertiesParser("resources/driver_config.properties").getImplicitWaitTimeProperty();
+		
 	}
 
 	protected void waitForElementLoading(WebElement ...elements){

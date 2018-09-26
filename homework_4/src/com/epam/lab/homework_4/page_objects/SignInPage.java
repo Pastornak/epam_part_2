@@ -3,8 +3,10 @@ package com.epam.lab.homework_4.page_objects;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import com.epam.lab.homework_4.elements.*;
+import com.epam.lab.homework_4.readers.PropertiesParser;
 
 public class SignInPage extends PageObject {
 
@@ -24,6 +26,9 @@ public class SignInPage extends PageObject {
 	
 	public SignInPage(WebDriver driver){
 		super(driver);
+		PageFactory.initElements(new CustomFieldDecorator(driver), this);
+		this.driver = driver;
+		waitTime = new PropertiesParser("resources/driver_config.properties").getImplicitWaitTimeProperty();
 		LOG.info("Constructor.");
 	}
 	
@@ -39,6 +44,7 @@ public class SignInPage extends PageObject {
 	
 	public void typePassword(String password){
 		LOG.info("typePassword, input: " + password);
+		waitForElementLoading(passwordInput.getElement());
 		passwordInput.type(password);
 	}
 	
