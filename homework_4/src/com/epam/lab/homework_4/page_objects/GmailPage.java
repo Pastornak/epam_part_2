@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.epam.lab.homework_4.elements.*;
-import com.epam.lab.homework_4.readers.PropertiesParser;
 
 public class GmailPage extends PageObject{
 	
@@ -36,10 +35,8 @@ public class GmailPage extends PageObject{
 	
 	public GmailPage(WebDriver driver){
 		super(driver);
-		PageFactory.initElements(new CustomFieldDecorator(driver), this);
-		this.driver = driver;
-		waitTime = new PropertiesParser("resources/driver_config.properties").getImplicitWaitTimeProperty();
 		LOG.info("Constructor.");
+		PageFactory.initElements(new CustomFieldDecorator(driver), this);
 		waitForPageLoading();
 	}
 	
@@ -88,8 +85,7 @@ public class GmailPage extends PageObject{
 		waitForElementLoading(notification);
 		WebElement checkElement = notification.findElement(By
 				.xpath(".//*[@class='bAo']/*[@id='link_undo']"));
-		new WebDriverWait(driver, waitTime).until(ExpectedConditions
-				.invisibilityOf(checkElement));
+		waitForInvisibility(checkElement);
 	}
 	
 	public String getEmailSubject(int emailNumberFromTop){
@@ -105,7 +101,7 @@ public class GmailPage extends PageObject{
 		LOG.info("getEmailShortText, input: " + emailNumberFromTop);
 		WebElement emailInfo = getEmailInfo(emailNumberFromTop);
 		Label textElement = new Label(emailInfo.findElement(By.xpath(".//span[@class='y2']")));
-		waitForElementLoading(textElement.getElement().findElement(By.tagName("span")));
+		waitForElementLoading(textElement.findElement(By.tagName("span")));
 		String text = textElement.getText();
 		text = text.replaceFirst("-", "");
 		text = text.trim();
@@ -133,6 +129,10 @@ public class GmailPage extends PageObject{
 		WebElement notificationUndoElement = driver.findElement(By
 				.xpath("//*[@id='link_undo' and @role='link']"));
 		waitForElementLoading(notificationUndoElement);
+		// Hardcoded time due to the fact that it's a notification, 
+		// so it's not related to the internet speed
+		// (for case where implicitWaitTime < notification lifetime)
+		waitForInvisibility(notificationUndoElement, 15);
 		return true;
 	}
 	

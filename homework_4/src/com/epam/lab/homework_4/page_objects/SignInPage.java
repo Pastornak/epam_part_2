@@ -6,7 +6,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.epam.lab.homework_4.elements.*;
-import com.epam.lab.homework_4.readers.PropertiesParser;
 
 public class SignInPage extends PageObject {
 
@@ -26,10 +25,8 @@ public class SignInPage extends PageObject {
 	
 	public SignInPage(WebDriver driver){
 		super(driver);
-		PageFactory.initElements(new CustomFieldDecorator(driver), this);
-		this.driver = driver;
-		waitTime = new PropertiesParser("resources/driver_config.properties").getImplicitWaitTimeProperty();
 		LOG.info("Constructor.");
+		PageFactory.initElements(new CustomFieldDecorator(driver), this);
 	}
 	
 	public void typeEmail(String email){
@@ -50,6 +47,7 @@ public class SignInPage extends PageObject {
 	
 	public GmailPage submitPassword(){
 		LOG.info("submitPassword.");
+		waitForElementLoading(submitPasswordButton.getElement());
 		submitPasswordButton.click();
 		return new GmailPage(driver);
 	}

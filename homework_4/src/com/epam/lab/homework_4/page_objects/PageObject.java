@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,7 +19,8 @@ class PageObject {
 
 	protected PageObject(WebDriver _driver) {
 		LOG.info("Constructor.");
-		
+		this.driver = _driver;
+		waitTime = new PropertiesParser("resources/driver_config.properties").getImplicitWaitTimeProperty();
 	}
 
 	protected void waitForElementLoading(WebElement ...elements){
@@ -33,6 +33,16 @@ class PageObject {
 	protected void waitForVisibility(WebElement element) {
 		LOG.info("waitForVisibility, input: " + element);
 		new WebDriverWait(driver, waitTime).until(ExpectedConditions.visibilityOf(element));
+	}
+	
+	protected void waitForInvisibility(WebElement element, int timeInSeconds){
+		LOG.info("waitForInvisibility, input: " + element + ", " + timeInSeconds + " seconds.");
+		new WebDriverWait(driver, timeInSeconds).until(ExpectedConditions.invisibilityOf(element));
+	}
+	
+	protected void waitForInvisibility(WebElement element){
+		LOG.info("waitForInvisibility, input: " + element);
+		new WebDriverWait(driver, waitTime).until(ExpectedConditions.invisibilityOf(element));
 	}
 	
 	protected void waitForElementLoading(By ...locators){

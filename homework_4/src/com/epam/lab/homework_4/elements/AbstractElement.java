@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 
 abstract class AbstractElement {
 
-	private WebElement webElement;
+	protected WebElement webElement;
 	
 	public AbstractElement(WebElement webElement){
 		this.webElement = webElement;
