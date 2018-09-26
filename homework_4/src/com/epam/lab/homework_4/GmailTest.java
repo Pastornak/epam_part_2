@@ -5,7 +5,9 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.epam.lab.homework_4.page_objects.*;
@@ -23,6 +25,9 @@ public class GmailTest {
 	private String emailSubject;
 	private String emailText;
 	
+	
+	private WebDriver driver;
+	
 	@BeforeClass
 	public void setUp(){
 		PropertiesParser pp = new PropertiesParser("resources/driver_config.properties");
@@ -39,11 +44,19 @@ public class GmailTest {
 		emailText = xml.getAttribute("text");
 	}
 
+	@BeforeMethod
+	public void setUpDriver(){
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(implicitTimeWait, TimeUnit.SECONDS);
+	}
+	
+	@AfterMethod
+	public void tearDownDriver(){
+		driver.quit();
+	}
+	
 	@Test
 	public void testGmailSendEmail(){
-		WebDriver driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(implicitTimeWait, TimeUnit.SECONDS);
-		
 		driver.get("https://mail.google.com");
 		SignInPage signInPage = new SignInPage(driver);
 		signInPage.typeEmail(login);
@@ -65,6 +78,5 @@ public class GmailTest {
 		gmailSentPage.clickEmailDeleteCheckbox(1);
 		gmailSentPage.clickDeleteCheckboxedEmailsButton();
 		Assert.assertTrue(gmailSentPage.isDeleted());
-		driver.quit();
 	}
 }
