@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<user>
-	<login>
-		yurii.test.email@gmail.com
-	</login>
-	<password>
-		CreatedByYurii_22.09.18
-	</password>
-</user>
+<users>
+	<user>
+		<login>
+			yurii.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYurii_22.09.18
+		</password>
+	</user>
+	<user>
+		<login>
+			yourii.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYourii_27.09.18
+		</password>
+	</user>
+	<user>
+		<login>
+			youree.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYouree_27.09.18
+		</password>
+	</user>
+	<user>
+		<login>
+			yuree.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYuree_27.09.18
+		</password>
+	</user>
+	<user>
+		<login>
+			youreey.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYoureey_27.09.18
+		</password>
+	</user>
+</users>

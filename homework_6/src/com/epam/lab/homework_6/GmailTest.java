@@ -8,23 +8,20 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.epam.lab.homework_6.business_objects.GmailBO;
 import com.epam.lab.homework_6.readers.*;
+import com.epam.lab.homework_6.users_emails.*;
+import com.epam.lab.homework_6.utils.Pair;
 
 public class GmailTest {
 	
 	private int implicitTimeWait;
 	private String pathToChromeDriver;
 	
-	private String login;
-	private String password;
-	
-	private String emailTo;
-	private String emailSubject;
-	private String emailText;
-	
+	private UserEmailPairs userEmailPairs;
 	
 	private WebDriver driver;
 	
@@ -35,13 +32,7 @@ public class GmailTest {
 		pathToChromeDriver = pp.getChromeDriverPath();
 		System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
 	
-		XMLParserDOM xml = new XMLParserDOM("resources/user.xml");
-		login = xml.getAttribute("login");
-		password = xml.getAttribute("password");
-		xml = new XMLParserDOM("resources/email.xml");
-		emailTo = xml.getAttribute("to");
-		emailSubject = xml.getAttribute("subject");
-		emailText = xml.getAttribute("text");
+		userEmailPairs = new UserEmailPairs();
 	}
 
 	@BeforeMethod
@@ -55,8 +46,23 @@ public class GmailTest {
 		driver.quit();
 	}
 	
-	@Test
-	public void testGmailSendEmail(){
+	@DataProvider(name = "user-email")
+	public Object[][] provideUserEmail(){
+		Pair<User, Email> pair = userEmailPairs.getPair();
+		return new Object[][]{
+			{pair.getKey(), pair.getValue()}
+		};
+	}
+	
+	@Test(dataProvider = "user-email")
+	public void testGmailSendEmail(User user, Email email){
+		String login = user.getLogin();
+		String password = user.getPassword();
+		
+		String emailTo = email.getTo();
+		String emailSubject = email.getSubject();
+		String emailText = email.getText();
+		
 		GmailBO gmailBO = new GmailBO(driver);
 		gmailBO.login(login, password);
 		gmailBO.writeEmail(emailTo, emailSubject, emailText);
