@@ -31,7 +31,7 @@ public class UserEmailPairs {
 		}
 	}
 	
-	public Pair<User, Email> getPair(){
+	synchronized public Pair<User, Email> getPair(){
 		return pairs.pop();
 	}
 	

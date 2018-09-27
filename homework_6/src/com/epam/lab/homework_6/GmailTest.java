@@ -23,7 +23,7 @@ public class GmailTest {
 	
 	private UserEmailPairs userEmailPairs;
 	
-	private WebDriver driver;
+	//private WebDriver driver;
 	
 	@BeforeClass
 	public void setUp(){
@@ -37,16 +37,16 @@ public class GmailTest {
 
 	@BeforeMethod
 	public void setUpDriver() {
-		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(implicitTimeWait, TimeUnit.SECONDS);
+//		driver = new ChromeDriver();
+//		driver.manage().timeouts().implicitlyWait(implicitTimeWait, TimeUnit.SECONDS);
 	}
 	
 	@AfterMethod
 	public void tearDownDriver(){
-		driver.quit();
+		//driver.quit();
 	}
 	
-	@DataProvider(name = "user-email")
+	@DataProvider(name = "user-email", parallel=true)
 	public Object[][] provideUserEmail(){
 		Pair<User, Email> pair = userEmailPairs.getPair();
 		return new Object[][]{
@@ -54,7 +54,7 @@ public class GmailTest {
 		};
 	}
 	
-	@Test(dataProvider = "user-email")
+	@Test(dataProvider = "user-email", threadPoolSize = 3, invocationCount = 3)
 	public void testGmailSendEmail(User user, Email email){
 		String login = user.getLogin();
 		String password = user.getPassword();
@@ -63,11 +63,14 @@ public class GmailTest {
 		String emailSubject = email.getSubject();
 		String emailText = email.getText();
 		
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(implicitTimeWait, TimeUnit.SECONDS);
 		GmailBO gmailBO = new GmailBO(driver);
 		gmailBO.login(login, password);
 		gmailBO.writeEmail(emailTo, emailSubject, emailText);
 		Assert.assertTrue(gmailBO.getSentEmailSubject(1).equals(emailSubject));
 		Assert.assertTrue(emailText.contains(gmailBO.getSentEmailShortText(1)));
 		Assert.assertTrue(gmailBO.deleteSentEmail(1));
+		driver.quit();
 	}
 }

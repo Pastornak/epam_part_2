@@ -24,4 +24,8 @@ public class Email {
 	public String getText() {
 		return text;
 	}
+	
+	public String toString(){
+		return to + ", " + subject + ", " + text;
+	}
 }
