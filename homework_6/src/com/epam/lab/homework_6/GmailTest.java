@@ -2,6 +2,7 @@ package com.epam.lab.homework_6;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
@@ -17,6 +18,8 @@ import com.epam.lab.homework_6.users_emails.*;
 import com.epam.lab.homework_6.utils.Pair;
 
 public class GmailTest {
+	
+	private static final Logger LOG = Logger.getLogger(GmailTest.class);
 	
 	private int implicitTimeWait;
 	private String pathToChromeDriver;
@@ -63,14 +66,23 @@ public class GmailTest {
 		String emailSubject = email.getSubject();
 		String emailText = email.getText();
 		
+		LOG.debug("Creating driver");
 		WebDriver driver = new ChromeDriver();
+		LOG.debug("Setting implicit wait time");
 		driver.manage().timeouts().implicitlyWait(implicitTimeWait, TimeUnit.SECONDS);
+		LOG.debug("Creating gmail Business Object");
 		GmailBO gmailBO = new GmailBO(driver);
+		LOG.debug("Login into gmail");
 		gmailBO.login(login, password);
+		LOG.debug("Writing email");
 		gmailBO.writeEmail(emailTo, emailSubject, emailText);
+		LOG.debug("Checking if email subject is the same");
 		Assert.assertTrue(gmailBO.getSentEmailSubject(1).equals(emailSubject));
+		LOG.debug("Checking if email text is the same");
 		Assert.assertTrue(emailText.contains(gmailBO.getSentEmailShortText(1)));
+		LOG.debug("Deleting sent email");
 		Assert.assertTrue(gmailBO.deleteSentEmail(1));
+		LOG.debug("Quitting driver");
 		driver.quit();
 	}
 }
