@@ -1,17 +1,18 @@
 package com.epam.lab.homework_6.users_emails;
 
+import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
+import java.util.LinkedList;
 
 import com.epam.lab.homework_6.readers.XMLParserDOM;
 import com.epam.lab.homework_6.utils.Pair;
 
 public class UserEmailPairs {
 
-	private Stack<Pair<User, Email>> pairs;
+	private Deque<Pair<User, Email>> pairs;
 	
 	public UserEmailPairs(){
-		pairs = new Stack<>();
+		pairs = new LinkedList<>();
 		initializeValues();
 	}
 	
@@ -27,12 +28,12 @@ public class UserEmailPairs {
 		for(int i = 0; i < size; i++){
 			User user = new User(logins.get(i), passwords.get(i));
 			Email email = new Email(tos.get(i), subjects.get(i), texts.get(i));
-			pairs.push(new Pair<User, Email>(user, email));
+			pairs.addLast(new Pair<User, Email>(user, email));
 		}
 	}
 	
 	public Pair<User, Email> getPair(){
-		return pairs.pop();
+		return pairs.poll();
 	}
 	
 	public int getSize(){

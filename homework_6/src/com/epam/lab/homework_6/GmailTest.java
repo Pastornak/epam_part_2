@@ -59,7 +59,6 @@ public class GmailTest {
 		Assert.assertTrue(emailText.contains(gmailBO.getSentEmailShortText(1)));
 		LOG.debug("Deleting sent email");
 		Assert.assertTrue(gmailBO.deleteSentEmail(1));
-		LOG.debug("Quitting driver");
 	}
 	
 	@AfterMethod
