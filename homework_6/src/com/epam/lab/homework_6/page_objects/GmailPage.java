@@ -47,6 +47,16 @@ public class GmailPage extends PageObject{
 		waitForElementLoading(emailList);
 		waitForVisibility(emailList);
     }
+	
+	public GmailPage navigateToSentEmails(){
+		LOG.info("navigateToSentEmails");
+		if (!driver.getCurrentUrl().contains("mail.google.com/mail") 
+				|| !driver.getCurrentUrl().contains("#sent")) {
+			driver.get("https://mail.google.com/mail/#sent");
+			driver.navigate().refresh();
+		}
+		return new GmailPage(driver);
+	}
 
 	public void pressWriteEmailButton(){
 		LOG.info("pressWriteEmailButton.");

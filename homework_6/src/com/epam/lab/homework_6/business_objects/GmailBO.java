@@ -57,10 +57,6 @@ public class GmailBO {
 
 	private GmailPage navigateToSentPage() {
 		LOG.info("navigateToSentPage.");
-		if (!driver.getCurrentUrl().contains("mail.google.com/mail") || !driver.getCurrentUrl().contains("#sent")) {
-			driver.get("https://mail.google.com/mail/#sent");
-			driver.navigate().refresh();
-		}
-		return new GmailPage(driver);
+		return (new GmailPage(driver)).navigateToSentEmails();
 	}
 }
