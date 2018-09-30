@@ -8,6 +8,10 @@ public class Label extends AbstractElement {
 		super(webElement);
 	}
 	
+	public String getText(){
+		return webElement.getText();
+	}
+	
 	public void sendKeys(CharSequence... keys){
 		throw new UnsupportedOperationException();
 	}

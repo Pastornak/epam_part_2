@@ -9,7 +9,15 @@ public class Input extends AbstractElement {
 	}
 	
 	public void type(String input){
-		super.clear();
-		super.sendKeys(input);
+		webElement.clear();
+		webElement.sendKeys(input);
+	}
+	
+	public void sendKeys(CharSequence... keys){
+		webElement.sendKeys(keys);
+	}
+	
+	public void clear(){
+		webElement.clear();
 	}
 }

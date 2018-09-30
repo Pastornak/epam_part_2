@@ -9,12 +9,12 @@ public class Checkbox extends AbstractElement{
 	}
 	
 	public boolean isChecked(){
-		return super.isSelected();
+		return webElement.isSelected();
 	}
 	
 	public void setChecked(boolean value){
 		if(isChecked() != value){
-			super.click();
+			webElement.click();
 		}
 	}
 }
