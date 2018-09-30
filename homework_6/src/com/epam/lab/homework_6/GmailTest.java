@@ -22,7 +22,7 @@ public class GmailTest {
 	
 	@BeforeClass
 	public void setUp(){
-		LOG.debug("BeforeClass");
+		LOG.info("BeforeClass");
 		PropertiesParser pp = new PropertiesParser("resources/driver_config.properties");
 		pathToChromeDriver = pp.getChromeDriverPath();
 		System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
@@ -32,7 +32,9 @@ public class GmailTest {
 	
 	@DataProvider(name = "user-email", parallel=true)
 	public Object[][] provideUserEmail(){
+		LOG.info("DataProvider['user-email']");
 		Pair<User, Email> pair = userEmailPairs.getPair();
+		LOG.info("Pair: " + pair.toString());
 		return new Object[][]{
 			{pair.getKey(), pair.getValue()}
 		};
@@ -40,30 +42,30 @@ public class GmailTest {
 	
 	@Test(dataProvider = "user-email", threadPoolSize = 3, invocationCount = 5)
 	public void testGmailSendEmail(User user, Email email){
-		LOG.debug("Testing: testGmailSendEmail, input: [" + user.toString() + "; " + email.toString() +"]");
+		LOG.info("Testing: testGmailSendEmail, input: [" + user.toString() + "; " + email.toString() +"]");
 		String login = user.getLogin();
 		String password = user.getPassword();
 		String emailTo = email.getTo();
 		String emailSubject = email.getSubject();
 		String emailText = email.getText();
 		
-		LOG.debug("Creating gmail Business Object");
+		LOG.info("Creating gmail Business Object");
 		GmailBO gmailBO = new GmailBO(ChromeDriverPool.getInstance());
-		LOG.debug("Login into gmail");
+		LOG.info("Login into gmail");
 		gmailBO.login(login, password);
-		LOG.debug("Writing email");
+		LOG.info("Writing email");
 		gmailBO.writeEmail(emailTo, emailSubject, emailText);
-		LOG.debug("Checking if email subject is the same");
+		LOG.info("Checking if email subject is the same");
 		Assert.assertTrue(gmailBO.getSentEmailSubject(1).equals(emailSubject));
-		LOG.debug("Checking if email text is the same");
+		LOG.info("Checking if email text is the same");
 		Assert.assertTrue(emailText.contains(gmailBO.getSentEmailShortText(1)));
-		LOG.debug("Deleting sent email");
+		LOG.info("Deleting sent email");
 		Assert.assertTrue(gmailBO.deleteSentEmail(1));
 	}
 	
-	@AfterMethod
+	@AfterMethod(alwaysRun=true)
 	public void cleanUp(){
-		LOG.debug("AfterMethod, Closing thread's driver");
+		LOG.info("AfterMethod, Closing thread's driver");
 		ChromeDriverPool.getInstance().quit();
 	}
 }

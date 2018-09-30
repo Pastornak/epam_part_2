@@ -32,8 +32,12 @@ public class UserEmailPairs {
 		}
 	}
 	
-	public Pair<User, Email> getPair(){
-		return pairs.poll();
+	synchronized public Pair<User, Email> getPair(){
+		if(getSize() <= 0){
+			initializeValues();
+		}
+		Pair<User, Email> result = pairs.poll();
+		return result;
 	}
 	
 	public int getSize(){

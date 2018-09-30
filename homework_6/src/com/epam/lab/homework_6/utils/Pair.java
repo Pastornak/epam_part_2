@@ -27,4 +27,8 @@ public class Pair<K, V> {
 	public V getValue(){
 		return value;
 	}
+	
+	public String toString(){
+		return key.toString() + ": " + value.toString();
+	}
 }
