@@ -16,26 +16,6 @@ abstract class AbstractElement {
 		this.webElement = webElement;
 	}
 	
-//	public void click(){
-//		webElement.click();
-//	}
-//	
-//	public void submit(){
-//		webElement.submit();
-//	}
-//	
-//	public void sendKeys(CharSequence... keys){
-//		webElement.sendKeys(keys);
-//	}
-//	
-//	public void clear(){
-//		webElement.clear();
-//	}
-//	
-//	public String getText(){
-//		return webElement.getText();
-//	}
-	
 	public String getTagName(){
 		return webElement.getTagName();
 	}
