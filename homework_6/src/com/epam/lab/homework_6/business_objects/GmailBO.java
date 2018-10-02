@@ -13,17 +13,7 @@ public class GmailBO {
 
 	public GmailBO(WebDriver driver) {
 		LOG.info("Constructor");
-		driver.get("https://mail.google.com");
 		this.driver = driver;
-	}
-
-	public void login(String login, String password) {
-		LOG.info("login, input: " + login + ", " + password);
-		SignInPage page = new SignInPage(driver);
-		page.typeEmail(login);
-		page.submitEmail();
-		page.typePassword(password);
-		page.submitPassword();
 	}
 
 	public void writeEmail(String to, String subject, String text) {

@@ -26,6 +26,7 @@ public class SignInPage extends PageObject {
 	public SignInPage(WebDriver driver){
 		super(driver);
 		LOG.info("Constructor.");
+		driver.get("https://accounts.google.com/ServiceLogin");
 		PageFactory.initElements(new CustomFieldDecorator(driver), this);
 	}
 	
@@ -45,10 +46,10 @@ public class SignInPage extends PageObject {
 		passwordInput.type(password);
 	}
 	
-	public GmailPage submitPassword(){
+	public void submitPassword(){
 		LOG.info("submitPassword.");
 		waitForElementLoading(submitPasswordButton.getElement());
 		submitPasswordButton.click();
-		return new GmailPage(driver);
+		waitForURLToContain("https://myaccount.google.com");
 	}
 }

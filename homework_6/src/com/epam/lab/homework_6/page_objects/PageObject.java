@@ -60,4 +60,9 @@ class PageObject {
 		LOG.info("waitForPresence, input: " + locator);
 		new WebDriverWait(driver, waitTime).until(ExpectedConditions.presenceOfElementLocated(locator));
 	}
+	
+	protected void waitForURLToContain(String url){
+		LOG.info("waitForURLToContain, input: " + url);
+		new WebDriverWait(driver, waitTime).until(ExpectedConditions.urlContains(url));
+	}
 }

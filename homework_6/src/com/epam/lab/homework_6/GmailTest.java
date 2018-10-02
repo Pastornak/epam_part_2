@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.epam.lab.homework_6.business_objects.GmailBO;
+import com.epam.lab.homework_6.business_objects.GoogleBO;
 import com.epam.lab.homework_6.drivers.ChromeDriverPool;
 import com.epam.lab.homework_6.readers.*;
 import com.epam.lab.homework_6.users_emails.*;
@@ -49,10 +50,12 @@ public class GmailTest {
 		String emailSubject = email.getSubject();
 		String emailText = email.getText();
 		
-		LOG.info("Creating gmail Business Object");
+		LOG.info("Creating Google Business Object");
+		GoogleBO googleBO = new GoogleBO(ChromeDriverPool.getInstance());
+		LOG.info("Login into google");
+		googleBO.login(login, password);
+		LOG.info("Creating Gmail Business Object");
 		GmailBO gmailBO = new GmailBO(ChromeDriverPool.getInstance());
-		LOG.info("Login into gmail");
-		gmailBO.login(login, password);
 		LOG.info("Writing email");
 		gmailBO.writeEmail(emailTo, emailSubject, emailText);
 		LOG.info("Checking if email subject is the same");

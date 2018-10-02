@@ -17,6 +17,7 @@ public class ChromeDriverPool {
 			int implicitTimeWait = (new PropertiesParser("resources/driver_config.properties"))
 					.getImplicitWaitTimeProperty();
 			driver.manage().timeouts().implicitlyWait(implicitTimeWait, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(implicitTimeWait, TimeUnit.SECONDS);
 			return driver;
 		}
 	};

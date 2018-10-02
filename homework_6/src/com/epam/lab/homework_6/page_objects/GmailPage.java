@@ -6,8 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.epam.lab.homework_6.elements.*;
 
@@ -36,14 +34,16 @@ public class GmailPage extends PageObject{
 	public GmailPage(WebDriver driver){
 		super(driver);
 		LOG.info("Constructor.");
+		if(!driver.getCurrentUrl().contains("mail.google.com/mail")){
+			driver.get("https://mail.google.com");
+		}
 		PageFactory.initElements(new CustomFieldDecorator(driver), this);
 		waitForPageLoading();
 	}
 	
 	public void waitForPageLoading() {
 		LOG.info("waitForPageLoading.");
-		new WebDriverWait(driver, waitTime)
-			.until(ExpectedConditions.urlMatches("^https://mail.google.com/mail/(\\w)*"));
+		waitForURLToContain("https://mail.google.com/mail/");
 		waitForElementLoading(emailList);
 		waitForVisibility(emailList);
     }
@@ -55,7 +55,7 @@ public class GmailPage extends PageObject{
 			driver.get("https://mail.google.com/mail/#sent");
 			driver.navigate().refresh();
 		}
-		return new GmailPage(driver);
+		return this;
 	}
 
 	public void pressWriteEmailButton(){
