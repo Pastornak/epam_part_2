@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+	<user>
+		<username>
+			Yurii Test
+		</username>
+		<login>
+			yurii.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYurii_22.09.18
+		</password>
+	</user>
+	<user>
+		<username>
+			Yourii Test
+		</username>
+		<login>
+			yourii.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYourii_27.09.18
+		</password>
+	</user>
+	<user>
+		<username>
+			Youree Test
+		</username>
+		<login>
+			youree.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYouree_27.09.18
+		</password>
+	</user>
+	<user>
+		<username>
+			Yuree Test
+		</username>
+		<login>
+			yuree.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYuree_27.09.18
+		</password>
+	</user>
+	<user>
+		<username>
+			Youreey Test
+		</username>
+		<login>
+			youreey.test.email@gmail.com
+		</login>
+		<password>
+			CreatedByYoureey_27.09.18
+		</password>
+	</user>
+</users>

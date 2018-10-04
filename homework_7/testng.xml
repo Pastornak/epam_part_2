@@ -1,0 +1,7 @@
+<suite name="Suite1">
+  <test name="Homework6"   >
+    <packages>
+      <package name="test.java.com.epam.lab.web" />
+   </packages>
+ </test>
+</suite>
