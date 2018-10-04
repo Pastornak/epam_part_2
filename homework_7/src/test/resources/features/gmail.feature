@@ -13,17 +13,3 @@ Feature: Login into google, go to gmail, write email, check if sent, delete emai
                 | Youree Test | youree.test.email@gmail.com | CreatedByYouree_27.09.18 |
                 | Yuree Test | yuree.test.email@gmail.com | CreatedByYuree_27.09.18 |
                 | Youreey Test | youreey.test.email@gmail.com | CreatedByYoureey_27.09.18 |
-
-
-#    Scenario: Go to gmail, write email, confirm it is in the sent list
-#        Given I have navigated to gmail
-#        And I have email credentials
-#        When I write and send email
-#        And I wait for email to be sent
-#        And I navigate to sent emails page
-#        Then I can see sent email in the list
-#
-#    Scenario: Go to sent email, delete sent email
-#        Given I have navigated to sent emails page
-#        When I delete last sent email
-#        Then I can see delete notification pop-up
