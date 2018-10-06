@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emails>
+	<email>
+		<to>
+			yurapaster@gmail.com
+		</to>
+		<subject>
+			Test 1
+		</subject>
+		<text>
+			Sent by Selenium test 1
+		</text>
+	</email>
+	<email>
+		<to>
+			yurapaster@gmail.com
+		</to>
+		<subject>
+			Test 2
+		</subject>
+		<text>
+			Sent by Selenium test 2
+		</text>
+	</email>
+	<email>
+		<to>
+			yurapaster@gmail.com
+		</to>
+		<subject>
+			Test 3
+		</subject>
+		<text>
+			Sent by Selenium test 3
+		</text>
+	</email>
+	<email>
+		<to>
+			yurapaster@gmail.com
+		</to>
+		<subject>
+			Test 4
+		</subject>
+		<text>
+			Sent by Selenium test 4
+		</text>
+	</email>
+	<email>
+		<to>
+			yurapaster@gmail.com
+		</to>
+		<subject>
+			Test 5
+		</subject>
+		<text>
+			Sent by Selenium test 5
+		</text>
+	</email>
+</emails>
