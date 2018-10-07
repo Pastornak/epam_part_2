@@ -3,45 +3,39 @@ package test.java.com.epam.lab.web;
 import main.java.com.epam.lab.web.business_objects.GmailBO;
 import main.java.com.epam.lab.web.business_objects.GoogleBO;
 import main.java.com.epam.lab.web.drivers.ChromeDriverPool;
+import main.java.com.epam.lab.web.readers.CSVParser;
 import main.java.com.epam.lab.web.readers.PropertiesParser;
+import main.java.com.epam.lab.web.users_emails.Email;
+import main.java.com.epam.lab.web.users_emails.User;
+import main.java.com.epam.lab.web.users_emails.UserEmailPairs;
+import main.java.com.epam.lab.web.utils.Pair;
+import org.testng.annotations.DataProvider;
 import org.apache.log4j.Logger;
-import org.easetech.easytest.annotation.DataLoader;
-import org.easetech.easytest.annotation.Param;
-import org.easetech.easytest.loader.LoaderType;
-import org.easetech.easytest.runner.DataDrivenTestRunner;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-@RunWith(DataDrivenTestRunner.class)
 public class GmailTest {
 
 	private static final Logger LOG = Logger.getLogger(GmailTest.class);
 
-	private static String pathToChromeDriver;
-	private WebDriver driver;
-
 	@BeforeClass
-	public static void setUp(){
+	public void setUp(){
 		LOG.info("BeforeClass");
 		PropertiesParser pp = new PropertiesParser("src/main/resources/driver_config.properties");
-		pathToChromeDriver = pp.getChromeDriverPath();
+		String pathToChromeDriver = pp.getChromeDriverPath();
 		System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
 	}
 
-	@Test
-	@DataLoader(filePaths={"test-data.xls"}, loaderType=LoaderType.EXCEL)
-	public void testGmailSendEmail(@Param(name="username")String username, @Param(name="login")String login
-			, @Param(name="password")String password, @Param(name="to")String emailTo
-			, @Param(name="subject")String emailSubject, @Param(name="text")String emailText){
-
+	@Test(dataProvider = "user-email-csv")
+	public void testGmailSendEmail(String username, String login, String password
+		, String emailTo, String emailSubject, String emailText){
 		LOG.info("Testing: testGmailSendEmail, input: [" + username + ", " + login + ", " + password + ": "
-				+ emailTo + ", " + emailSubject + ", " + emailSubject + "]");
+				+ emailTo + ", " + emailSubject + ", " + emailText + "]");
+
+		WebDriver driver = ChromeDriverPool.getNewDriver();
 		LOG.info("Creating Google Business Object");
-		driver = ChromeDriverPool.getNewDriver();
 		GoogleBO googleBO = new GoogleBO(driver);
 		googleBO.navigateToLoginForm();
 		LOG.info("Login into google");
@@ -62,11 +56,30 @@ public class GmailTest {
 		LOG.info("Deleting sent email");
 		gmailBO.deleteSentEmail(1);
 		Assert.assertTrue(gmailBO.isSentEmailDeleted());
+		driver.quit();
 	}
 
-	@After
-	public void cleanUp(){
-		LOG.info("AfterMethod, Closing thread's driver");
-		driver.quit();
+	@DataProvider(name = "user-email", parallel=true)
+	public Object[][] provideUserEmail(){
+		UserEmailPairs userEmailPairs = new UserEmailPairs();
+		int size = userEmailPairs.getSize();
+		Object[][] result = new Object[size][];
+		for(int i = 0; i < size; i++){
+			Pair<User, Email> pair = userEmailPairs.getPair();
+			result[i] = new String[]{pair.getKey().getUsername(), pair.getKey().getLogin(), pair.getKey().getPassword()
+					, pair.getValue().getTo(), pair.getValue().getSubject(), pair.getValue().getText()};
+		}
+		return result;
+	}
+
+	@DataProvider(name = "user-email-csv", parallel = true)
+	public Object[][] provideUserEmailCSV(){
+		String[][] array = CSVParser.parse("src/test/resources/test-data.csv");
+		int size = array.length;
+		Object[][] result = new Object[size][];
+		for(int i = 0; i < size; i++){
+			result[i] = new String[]{array[i][0], array[i][1], array[i][2], array[i][3], array[i][4], array[i][5]};
+		}
+		return result;
 	}
 }
