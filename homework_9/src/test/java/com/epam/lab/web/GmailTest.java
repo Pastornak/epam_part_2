@@ -70,9 +70,9 @@ public class GmailTest {
 		return result;
 	}
 
-	@DataProvider(name = "user-email-csv")
+	@DataProvider(name = "user-email-csv", parallel=true)
 	public Object[][] provideUserEmailCSV(){
-		String[][] array = CSVParser.parse("/test-data.csv");
+		String[][] array = CSVParser.parse("src/test/resources/test-data.csv");
 		int size = array.length;
 		Object[][] result = new Object[size][];
 		for(int i = 0; i < size; i++){

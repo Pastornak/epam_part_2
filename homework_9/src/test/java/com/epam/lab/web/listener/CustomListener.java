@@ -10,22 +10,22 @@ public class CustomListener implements ITestListener {
     private static final Logger LOG = Logger.getLogger(CustomListener.class);
 
     public void onTestStart(ITestResult iTestResult){
-        LOG.info("STARTING TEST: [" + iTestResult.getName() + "], method: ["
+        LOG.info("STARTING TEST: [" + iTestResult.getInstanceName() + "], method: ["
                 + iTestResult.getMethod().getMethodName() + "] at " + iTestResult.getStartMillis());
     }
 
     public void onTestSuccess(ITestResult iTestResult){
-        LOG.info("SUCCESS: [" + iTestResult.getName() + "], method: ["
+        LOG.info("SUCCESS: [" + iTestResult.getInstanceName() + "], method: ["
                 + iTestResult.getMethod().getMethodName() + "] at " + iTestResult.getEndMillis());
     }
 
     public void onTestFailure(ITestResult iTestResult){
-        LOG.info("FAILURE: [" + iTestResult.getName() + "], method: ["
+        LOG.info("FAILURE: [" + iTestResult.getInstanceName() + "], method: ["
                 + iTestResult.getMethod().getMethodName() + "] at " + iTestResult.getEndMillis());
     }
 
     public void onTestSkipped(ITestResult iTestResult){
-        LOG.info("SKIPPED: [" + iTestResult.getName() + "], method: ["
+        LOG.info("SKIPPED: [" + iTestResult.getInstanceName() + "], method: ["
                 + iTestResult.getMethod().getMethodName() + "] at " + iTestResult.getEndMillis());
     }
 
@@ -48,6 +48,7 @@ public class CustomListener implements ITestListener {
         iTestContext.getFailedTests().getAllResults().forEach(t -> LOG.info("\t" + t.getName()));
         LOG.info("SKIPPED TEST CASES:");
         iTestContext.getSkippedTests().getAllResults().forEach(t -> LOG.info("\t" + t.getName()));
-        LOG.info("PASS RATE: " + iTestContext.getPassedTests().size() / iTestContext.getAllTestMethods().length);
+        LOG.info("PASS RATE: " + (iTestContext.getPassedTests().size()
+                / (iTestContext.getPassedTests().size() + iTestContext.getFailedTests().size())) * 100 + "%" );
     }
 }

@@ -12,7 +12,7 @@ public class PropertiesParser {
 	public PropertiesParser(String pathToFile){
 		properties = new Properties();
 		try {
-			properties.load(getClass().getResourceAsStream(pathToFile));
+			properties.load(new FileInputStream(pathToFile));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

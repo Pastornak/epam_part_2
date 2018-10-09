@@ -32,8 +32,8 @@ public class FailTest {
         googleBO.navigateToLoginForm();
         LOG.info("Logging in Google Account");
         googleBO.login(login, password);
-        LOG.info("Asserting that the user is logged in with wrong username");
-        Assert.assertTrue(googleBO.isLoggedIn(incorrectUsername));
+        Assert.assertTrue(googleBO.isLoggedIn(incorrectUsername)
+                , "Asserting that the user is logged in with wrong username");
     }
 
     @AfterMethod(alwaysRun = true)

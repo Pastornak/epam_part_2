@@ -9,8 +9,7 @@ public class CSVParser{
 
     public static String[][] parse(String pathToFile){
         String[][] resultArray = {};
-        InputStream inputStream = CSVParser.class.getResourceAsStream(pathToFile);
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))){
+        try(BufferedReader reader = new BufferedReader(new FileReader(pathToFile))){
             List<List<String>> resultList = new ArrayList<>();
             String line;
             while((line = reader.readLine()) != null){
