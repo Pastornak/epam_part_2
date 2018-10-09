@@ -33,29 +33,37 @@ public class GmailTest {
 		, String emailTo, String emailSubject, String emailText){
 		LOG.info("Testing: testGmailSendEmail, input: [" + username + ", " + login + ", " + password + ": "
 				+ emailTo + ", " + emailSubject + ", " + emailText + "]");
-
+		LOG.info("Creating chromedriver");
 		WebDriver driver = ChromeDriverPool.getNewDriver();
 		LOG.info("Creating Google Business Object");
 		GoogleBO googleBO = new GoogleBO(driver);
+		LOG.info("Navigating to google login form");
 		googleBO.navigateToLoginForm();
-		LOG.info("Login into google");
+		LOG.info("Login into google, input: " + login + ", " + password);
 		googleBO.login(login, password);
+		LOG.info("Asserting that the right user is logged in");
 		Assert.assertTrue(googleBO.isLoggedIn(username));
 		LOG.info("Creating Gmail Business Object");
 		GmailBO gmailBO = new GmailBO(driver);
+		LOG.info("Navigating to gmail");
 		gmailBO.navigateToGmail();
-		LOG.info("Writing email");
+		LOG.info("Writing email, fields: " + emailTo + ", " + emailSubject + ", " + emailText);
 		gmailBO.writeEmail(emailTo, emailSubject, emailText);
+		LOG.info("Sending email");
 		gmailBO.sendEmail();
+		LOG.info("Asserting that email was sent");
 		Assert.assertTrue(gmailBO.isEmailSent());
+		LOG.info("Navigating to sent emails page");
 		gmailBO.navigateToSentPage();
-		LOG.info("Checking if email subject is the same");
+		LOG.info("Asserting that email subject is the same");
 		Assert.assertEquals(gmailBO.getSentEmailSubject(1), emailSubject);
-		LOG.info("Checking if email text is the same");
+		LOG.info("Asserting email text is the same");
 		Assert.assertTrue(emailText.contains(gmailBO.getSentEmailShortText(1)));
 		LOG.info("Deleting sent email");
 		gmailBO.deleteSentEmail(1);
+		LOG.info("Asserting that email was deleted");
 		Assert.assertTrue(gmailBO.isSentEmailDeleted());
+		LOG.info("Closing driver");
 		driver.quit();
 	}
 
