@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertiesParser {
-	
+
 	private Properties properties;
-	
+
 	public PropertiesParser(String pathToFile){
 		properties = new Properties();
 		try {
@@ -21,15 +21,15 @@ public class PropertiesParser {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String getProperty(String propertyName){
 		return properties.getProperty(propertyName);
 	}
-	
+
 	public int getImplicitWaitTimeProperty(){
 		return Integer.parseInt(properties.getProperty("implicit_wait_time"));
 	}
-	
+
 	public String getChromeDriverPath(){
 		return properties.getProperty("chrome_driver");
 	}

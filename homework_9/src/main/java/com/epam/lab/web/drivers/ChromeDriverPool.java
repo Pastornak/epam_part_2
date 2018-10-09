@@ -10,13 +10,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class ChromeDriverPool {
 
 	private ChromeDriverPool(){}
-	
+
 	private static final ThreadLocal<WebDriver> localValue = new ThreadLocal<WebDriver>(){
 		protected WebDriver initialValue(){
 			return getNewDriver();
 		}
 	};
-	
+
 	public static WebDriver getThreadLocalInstance(){
 		return localValue.get();
 	}

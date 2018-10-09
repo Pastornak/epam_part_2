@@ -1,7 +1,18 @@
 <suite name="Suite1" data-provider-thread-count="3">
-  <test name="Homework8"   >
-    <packages>
-      <package name="test.java.com.epam.lab.web" />
-   </packages>
- </test>
+
+    <listeners>
+        <listener class-name="org.uncommons.reportng.HTMLReporter"/>
+        <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
+    </listeners>
+
+    <test name="Homework9_success">
+        <classes>
+            <class name="test.java.com.epam.lab.web.GmailTest"/>
+        </classes>
+    </test>
+    <test name="Homework9_fail">
+        <classes>
+            <class name="test.java.com.epam.lab.web.FailTest"/>
+        </classes>
+    </test>
 </suite>

@@ -20,14 +20,6 @@ public class GmailTest {
 
 	private static final Logger LOG = Logger.getLogger(GmailTest.class);
 
-	@BeforeClass
-	public void setUp(){
-		LOG.info("BeforeClass");
-		PropertiesParser pp = new PropertiesParser("src/main/resources/driver_config.properties");
-		String pathToChromeDriver = pp.getChromeDriverPath();
-		System.setProperty("webdriver.chrome.driver", pathToChromeDriver);
-	}
-
 	@Test(dataProvider = "user-email-csv")
 	public void testGmailSendEmail(String username, String login, String password
 		, String emailTo, String emailSubject, String emailText){
@@ -41,7 +33,7 @@ public class GmailTest {
 		googleBO.navigateToLoginForm();
 		LOG.info("Login into google, input: " + login + ", " + password);
 		googleBO.login(login, password);
-		LOG.info("Asserting that the right user is logged in");
+		LOG.info("Asserting that the right user is logged in [by username: " + username + "]");
 		Assert.assertTrue(googleBO.isLoggedIn(username));
 		LOG.info("Creating Gmail Business Object");
 		GmailBO gmailBO = new GmailBO(driver);
@@ -55,9 +47,9 @@ public class GmailTest {
 		Assert.assertTrue(gmailBO.isEmailSent());
 		LOG.info("Navigating to sent emails page");
 		gmailBO.navigateToSentPage();
-		LOG.info("Asserting that email subject is the same");
+		LOG.info("Asserting that email subject is the same [subject: " + emailSubject + "]");
 		Assert.assertEquals(gmailBO.getSentEmailSubject(1), emailSubject);
-		LOG.info("Asserting email text is the same");
+		LOG.info("Asserting that email text is the same [text: " + emailText + "]");
 		Assert.assertTrue(emailText.contains(gmailBO.getSentEmailShortText(1)));
 		LOG.info("Deleting sent email");
 		gmailBO.deleteSentEmail(1);
