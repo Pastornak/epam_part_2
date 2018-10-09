@@ -4,7 +4,6 @@ import main.java.com.epam.lab.web.business_objects.GmailBO;
 import main.java.com.epam.lab.web.business_objects.GoogleBO;
 import main.java.com.epam.lab.web.drivers.ChromeDriverPool;
 import main.java.com.epam.lab.web.readers.CSVParser;
-import main.java.com.epam.lab.web.readers.PropertiesParser;
 import main.java.com.epam.lab.web.users_emails.Email;
 import main.java.com.epam.lab.web.users_emails.User;
 import main.java.com.epam.lab.web.users_emails.UserEmailPairs;
@@ -13,7 +12,6 @@ import org.testng.annotations.DataProvider;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class GmailTest {
@@ -72,7 +70,7 @@ public class GmailTest {
 		return result;
 	}
 
-	@DataProvider(name = "user-email-csv", parallel = true)
+	@DataProvider(name = "user-email-csv")
 	public Object[][] provideUserEmailCSV(){
 		String[][] array = CSVParser.parse("src/test/resources/test-data.csv");
 		int size = array.length;
