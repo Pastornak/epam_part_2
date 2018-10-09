@@ -1,0 +1,7 @@
+<suite name="Suite1" data-provider-thread-count="3">
+  <test name="Homework8"   >
+    <packages>
+      <package name="test.java.com.epam.lab.web" />
+   </packages>
+ </test>
+</suite>
